@@ -7,7 +7,7 @@ public class ItemObj : ScriptableObject
     [SerializeField] private int _cost;
     [SerializeField] private int _tag;
 
-    public GameObject Model => _model;
+    private GameObject Model => _model;
     public int Cost => _cost;
     public int Tag => _tag;
 
