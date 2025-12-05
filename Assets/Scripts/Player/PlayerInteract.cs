@@ -46,6 +46,7 @@ public class PlayerInteract : MonoBehaviour, IInputable
             if (obj is Item item)
             {
                 TakeItem(item);
+                item.Interact();
                 return;
             }
             
@@ -71,10 +72,12 @@ public class PlayerInteract : MonoBehaviour, IInputable
         _inputSystemActions.Enable();
     }
     
+    /*
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(_holder.transform.position, halfExtents * 2);
+        //Gizmos.DrawWireCube(_holder.transform.position, halfExtents * 2);
     }
+    */
 }
 

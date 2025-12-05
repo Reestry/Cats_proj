@@ -7,11 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     private readonly List<IInputable> _inputables = new();
     
-    private void Awake()
-    {
-        
-    }
-
     private void Update()
     {
         foreach (var input in _inputables)
@@ -29,5 +24,4 @@ public class PlayerController : MonoBehaviour
     {
         _inputables.Remove(item);
     }
-    
 }
