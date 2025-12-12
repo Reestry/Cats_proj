@@ -40,9 +40,9 @@ public class MouseInput : MonoBehaviour
         {
             OnObjectReleased?.Invoke();
         }
-        
-        currentTime += Time.deltaTime;
 
+        currentTime += Time.deltaTime;
+        
         if (currentTime >= 5)
         {
             currentTime = 0;
