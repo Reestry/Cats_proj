@@ -32,6 +32,9 @@ public class MouseTake : MonoBehaviour
 
     private void SetItem(Rigidbody obj)
     {
+        if (_item != null)
+            return;
+        
         _item = obj;
         _item.useGravity = false;
     }

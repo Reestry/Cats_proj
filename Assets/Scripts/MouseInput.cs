@@ -33,6 +33,20 @@ public class MouseInput : MonoBehaviour
             {
                 if(hit.collider.TryGetComponent<Rigidbody>(out var obj))
                     OnObjectTaken?.Invoke(obj);
+
+                if (hit.collider.TryGetComponent<BoxWithItems>(out var box))
+                {
+                    try
+                    {
+                        OnObjectTaken?.Invoke(box.GetItem());
+                    }
+                    catch
+                    {
+                        Debug.Log("Ничего нет :((");
+                        box.DeleteBox();
+                        return;
+                    }
+                }
             }
         }
         
