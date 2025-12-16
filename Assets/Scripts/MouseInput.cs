@@ -5,10 +5,13 @@ public class MouseInput : MonoBehaviour
 {
     public event Action<Rigidbody> OnObjectTaken;
     public event Action OnObjectReleased;
+    public event Action<float> OnZoomScrolled;
     
     private InputSystem_Actions _inputActions;
     private Vector2 _mousePos; 
-    float currentTime;
+    private float currentTime;
+    private float _zoomVal;
+    
     
     public Vector2 ReturnMousePos()
     {
@@ -19,6 +22,16 @@ public class MouseInput : MonoBehaviour
     {
         _inputActions = new InputSystem_Actions();
         _inputActions.Enable();
+
+        _inputActions.Interactable.Zoom.performed += ctx =>
+        {
+            _zoomVal = _inputActions.Interactable.Zoom.ReadValue<Vector2>().y;
+
+            if (_zoomVal == 0) return;
+            
+            OnZoomScrolled?.Invoke(_zoomVal);
+            
+        };
     }
     
     private void Update()
@@ -55,9 +68,11 @@ public class MouseInput : MonoBehaviour
             OnObjectReleased?.Invoke();
         }
 
+
+
         currentTime += Time.deltaTime;
         
-        if (currentTime >= 5)
+        if (currentTime >= 5    )
         {
             currentTime = 0;
             Debug.Log(_inputActions.Interactable.MousePosition.ReadValue<Vector2>());

@@ -14,6 +14,23 @@ public class MouseTake : MonoBehaviour
 
         _mouseInput.OnObjectTaken += SetItem;
         _mouseInput.OnObjectReleased += ReleaseItem;
+
+        _mouseInput.OnZoomScrolled += Zoom;
+    }
+
+    private void Zoom(float zoomVal)
+    {
+        Debug.Log(zoomVal);
+        
+        if (zoomVal == 0)
+            return;
+
+        var direction = (_handPos.position - transform.position).normalized;
+
+
+        float step = zoomVal > 0 ? 1f : -1f;
+
+        _handPos.position += direction * step ;
     }
 
     void Update()
