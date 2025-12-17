@@ -6,6 +6,7 @@ public class MouseInput : MonoBehaviour
 {
     public event Action<Rigidbody> OnObjectTaken;
     public event Action OnObjectReleased;
+    public event Action OnObjectFreezed;
     public event Action<float> OnZoomScrolled;
     
     private InputSystem_Actions _inputActions;
@@ -33,6 +34,7 @@ public class MouseInput : MonoBehaviour
             OnZoomScrolled?.Invoke(_zoomVal);
             
         };
+        
     }
     
     private void Update()
@@ -72,6 +74,9 @@ public class MouseInput : MonoBehaviour
                 }
             }
         }
+
+        if (_inputActions.Interactable.Freeze.WasPerformedThisFrame())
+            OnObjectFreezed?.Invoke();
         
         if (_inputActions.Interactable.Interact.WasReleasedThisFrame())
         {

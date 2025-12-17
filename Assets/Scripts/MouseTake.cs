@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class MouseTake : MonoBehaviour
@@ -7,6 +8,7 @@ public class MouseTake : MonoBehaviour
     
     private MouseInput _mouseInput;
     private Rigidbody _item;
+    private Vector3 _lastHandPos;
     
     private void Start()
     {
@@ -16,6 +18,7 @@ public class MouseTake : MonoBehaviour
         _mouseInput.OnObjectReleased += ReleaseItem;
 
         _mouseInput.OnZoomScrolled += Zoom;
+        _mouseInput.OnObjectFreezed += FreezeObject;
     }
 
     private void Zoom(float zoomVal)
@@ -27,10 +30,16 @@ public class MouseTake : MonoBehaviour
 
         var direction = (_handPos.position - transform.position).normalized;
 
+        if ((_handPos.position - transform.position).magnitude > 2)
+        {
+            _lastHandPos = _handPos.position;
+            var step = zoomVal > 0 ? 1f : -1f;
+            _handPos.position += direction * step ;
+            
+        }
+        else
+            _handPos.position = _lastHandPos;
 
-        float step = zoomVal > 0 ? 1f : -1f;
-
-        _handPos.position += direction * step ;
     }
 
     void Update()
@@ -47,13 +56,21 @@ public class MouseTake : MonoBehaviour
         
     }
 
+    private void FreezeObject()
+    {
+        _item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        ReleaseItem();
+    }
+
     private void SetItem(Rigidbody obj)
     {
         if (_item != null)
             return;
         
         _item = obj;
+        _item.constraints = RigidbodyConstraints.None;
         _item.useGravity = false;
+
     }
 
     private void ReleaseItem()

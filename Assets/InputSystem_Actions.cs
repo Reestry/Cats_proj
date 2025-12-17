@@ -1108,6 +1108,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Freeze"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a3d7606-03a2-4f27-8c07-0e739e0dc8ba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1198,6 +1207,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a0c7279-1d70-4d39-9d6d-13903f854129"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Freeze"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1293,6 +1313,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Interactable_MousePosition = m_Interactable.FindAction("Mouse Position", throwIfNotFound: true);
         m_Interactable_Interact = m_Interactable.FindAction("Interact", throwIfNotFound: true);
         m_Interactable_Zoom = m_Interactable.FindAction("Zoom", throwIfNotFound: true);
+        m_Interactable_Freeze = m_Interactable.FindAction("Freeze", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1757,6 +1778,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Interactable_MousePosition;
     private readonly InputAction m_Interactable_Interact;
     private readonly InputAction m_Interactable_Zoom;
+    private readonly InputAction m_Interactable_Freeze;
     /// <summary>
     /// Provides access to input actions defined in input action map "Interactable".
     /// </summary>
@@ -1780,6 +1802,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Interactable/Zoom".
         /// </summary>
         public InputAction @Zoom => m_Wrapper.m_Interactable_Zoom;
+        /// <summary>
+        /// Provides access to the underlying input action "Interactable/Freeze".
+        /// </summary>
+        public InputAction @Freeze => m_Wrapper.m_Interactable_Freeze;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1815,6 +1841,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
+            @Freeze.started += instance.OnFreeze;
+            @Freeze.performed += instance.OnFreeze;
+            @Freeze.canceled += instance.OnFreeze;
         }
 
         /// <summary>
@@ -1835,6 +1864,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
+            @Freeze.started -= instance.OnFreeze;
+            @Freeze.performed -= instance.OnFreeze;
+            @Freeze.canceled -= instance.OnFreeze;
         }
 
         /// <summary>
@@ -2110,5 +2142,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnZoom(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Freeze" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFreeze(InputAction.CallbackContext context);
     }
 }
