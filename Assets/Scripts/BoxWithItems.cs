@@ -1,11 +1,17 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Player;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-public class BoxWithItems : MonoBehaviour
+public class BoxWithItems : MonoBehaviour, IInteractableItem<object>
+
+
 {
+
+    
     [SerializeField] private ItemList _itemList;
 
     private List<Rigidbody> _items;
@@ -15,7 +21,25 @@ public class BoxWithItems : MonoBehaviour
         _items = new List<Rigidbody>(_itemList.ItemLists);
     }
 
-    public Rigidbody GetItem()
+
+
+    public object Interact()
+    {
+        try
+        {
+            GetItem();
+        }
+        catch
+        {
+            Debug.Log("Ничего нет :((");
+            DeleteBox();
+            return null;
+        }
+        return null;
+    }
+
+
+public Rigidbody GetItem()
     {
         if (_items.Count == 0)
             return null;

@@ -1,4 +1,5 @@
 using System;
+using Player;
 using UnityEngine;
 
 public class MouseInput : MonoBehaviour
@@ -47,6 +48,15 @@ public class MouseInput : MonoBehaviour
                 if(hit.collider.TryGetComponent<Rigidbody>(out var obj))
                     OnObjectTaken?.Invoke(obj);
 
+                if (hit.collider.TryGetComponent<IInteractableItem<Rigidbody>>(out var item))
+                {
+                    var interactedObject = item.Interact();
+
+                    if (interactedObject != null)
+                        OnObjectTaken?.Invoke(interactedObject.GetComponent<Rigidbody>());
+
+                }
+                
                 if (hit.collider.TryGetComponent<BoxWithItems>(out var box))
                 {
                     try
@@ -68,8 +78,7 @@ public class MouseInput : MonoBehaviour
             OnObjectReleased?.Invoke();
         }
 
-
-
+        
         currentTime += Time.deltaTime;
         
         if (currentTime >= 5    )
