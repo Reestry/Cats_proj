@@ -1117,6 +1117,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ResetRotation"",
+                    ""type"": ""Button"",
+                    ""id"": ""f42ca377-6ef2-45ad-afa0-89c4e552a287"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1218,6 +1227,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Freeze"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62f15e2f-ca02-445f-afad-a222e1c42500"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ResetRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1314,6 +1334,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Interactable_Interact = m_Interactable.FindAction("Interact", throwIfNotFound: true);
         m_Interactable_Zoom = m_Interactable.FindAction("Zoom", throwIfNotFound: true);
         m_Interactable_Freeze = m_Interactable.FindAction("Freeze", throwIfNotFound: true);
+        m_Interactable_ResetRotation = m_Interactable.FindAction("ResetRotation", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1779,6 +1800,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Interactable_Interact;
     private readonly InputAction m_Interactable_Zoom;
     private readonly InputAction m_Interactable_Freeze;
+    private readonly InputAction m_Interactable_ResetRotation;
     /// <summary>
     /// Provides access to input actions defined in input action map "Interactable".
     /// </summary>
@@ -1806,6 +1828,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Interactable/Freeze".
         /// </summary>
         public InputAction @Freeze => m_Wrapper.m_Interactable_Freeze;
+        /// <summary>
+        /// Provides access to the underlying input action "Interactable/ResetRotation".
+        /// </summary>
+        public InputAction @ResetRotation => m_Wrapper.m_Interactable_ResetRotation;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1844,6 +1870,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Freeze.started += instance.OnFreeze;
             @Freeze.performed += instance.OnFreeze;
             @Freeze.canceled += instance.OnFreeze;
+            @ResetRotation.started += instance.OnResetRotation;
+            @ResetRotation.performed += instance.OnResetRotation;
+            @ResetRotation.canceled += instance.OnResetRotation;
         }
 
         /// <summary>
@@ -1867,6 +1896,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Freeze.started -= instance.OnFreeze;
             @Freeze.performed -= instance.OnFreeze;
             @Freeze.canceled -= instance.OnFreeze;
+            @ResetRotation.started -= instance.OnResetRotation;
+            @ResetRotation.performed -= instance.OnResetRotation;
+            @ResetRotation.canceled -= instance.OnResetRotation;
         }
 
         /// <summary>
@@ -2149,5 +2181,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnFreeze(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ResetRotation" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnResetRotation(InputAction.CallbackContext context);
     }
 }

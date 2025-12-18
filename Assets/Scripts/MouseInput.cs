@@ -1,6 +1,6 @@
 using System;
-using Player;
 using UnityEngine;
+using Player;
 
 public class MouseInput : MonoBehaviour
 {
@@ -8,6 +8,7 @@ public class MouseInput : MonoBehaviour
     public event Action OnObjectReleased;
     public event Action OnObjectFreezed;
     public event Action<float> OnZoomScrolled;
+    public event Action OnResetRotationPressed;
     
     private InputSystem_Actions _inputActions;
     private Vector2 _mousePos; 
@@ -34,7 +35,12 @@ public class MouseInput : MonoBehaviour
             OnZoomScrolled?.Invoke(_zoomVal);
             
         };
-        
+
+        _inputActions.Interactable.ResetRotation.performed += ctx =>
+        {
+            OnResetRotationPressed?.Invoke();
+        };
+
     }
     
     private void Update()
@@ -86,7 +92,7 @@ public class MouseInput : MonoBehaviour
         
         currentTime += Time.deltaTime;
         
-        if (currentTime >= 5    )
+        if (currentTime >= 5)
         {
             currentTime = 0;
             Debug.Log(_inputActions.Interactable.MousePosition.ReadValue<Vector2>());
