@@ -8,17 +8,19 @@ public class MouseTake : MonoBehaviour
     private MouseInput _mouseInput;
     private Rigidbody _item;
     private Vector3 _lastHandPos;
+    private Vector3 _startHandPos;
     
     private void Start()
     {
         _mouseInput = GetComponent<MouseInput>();
-
         _mouseInput.OnObjectTaken += SetItem;
         _mouseInput.OnObjectReleased += ReleaseItem;
 
         _mouseInput.OnZoomScrolled += Zoom;
         _mouseInput.OnObjectFreezed += FreezeObject;
         _mouseInput.OnResetRotationPressed += ResetRotation;
+        
+        _startHandPos = _handPos.position;
     }
 
     private void Zoom(float zoomVal)
@@ -83,6 +85,7 @@ public class MouseTake : MonoBehaviour
 
         _item.useGravity = true;
         _item = null;
+        _handPos.position = _startHandPos;
     }
 
     private void OnDisable()
@@ -93,5 +96,5 @@ public class MouseTake : MonoBehaviour
         _mouseInput.OnZoomScrolled -= Zoom;
         _mouseInput.OnObjectFreezed -= FreezeObject;
         _mouseInput.OnResetRotationPressed -= ResetRotation;
-    }
+    } 
 }
