@@ -71,8 +71,9 @@ public class MouseTake : MonoBehaviour
     {
         if (_item != null)
             return;
-        
+
         _item = obj;
+        _handPos.position = _item.transform.position;
         _item.constraints = RigidbodyConstraints.None;
         _item.useGravity = false;
 
@@ -85,6 +86,10 @@ public class MouseTake : MonoBehaviour
 
         _item.useGravity = true;
         _item = null;
+    }
+    
+    private void ResetHandPosition()
+    {
         _handPos.position = _startHandPos;
     }
 
