@@ -53,30 +53,26 @@ public class MouseInput : MonoBehaviour
 
             if (Physics.Raycast(ray, out var hit))
             {
-                if(hit.collider.TryGetComponent<Rigidbody>(out var obj))
+                if (hit.collider.TryGetComponent<Rigidbody>(out var obj))
+                {
                     OnObjectTaken?.Invoke(obj);
+                    return;
+                }
 
                 if (hit.collider.TryGetComponent<IInteractableItem<Rigidbody>>(out var item))
                 {
                     var interactedObject = item.Interact();
-
+                    
                     if (interactedObject != null)
+                    {
                         OnObjectTaken?.Invoke(interactedObject.GetComponent<Rigidbody>());
-
+                        
+                    }
                 }
-                
-                if (hit.collider.TryGetComponent<BoxWithItems>(out var box))
+                if (hit.collider.TryGetComponent<IInteractableItem<object>>(out var simpleItem))
                 {
-                    try
-                    {
-                        OnObjectTaken?.Invoke(box.GetItem());
-                    }
-                    catch
-                    {
-                        Debug.Log("Ничего нет :((");
-                        box.DeleteBox();
-                        return;
-                    }
+                    simpleItem.Interact(); 
+                    return;
                 }
             }
         }

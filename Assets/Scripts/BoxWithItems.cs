@@ -6,7 +6,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-public class BoxWithItems : MonoBehaviour, IInteractableItem<object>
+public class BoxWithItems : MonoBehaviour, IInteractableItem<Rigidbody>
 
 
 {
@@ -23,11 +23,11 @@ public class BoxWithItems : MonoBehaviour, IInteractableItem<object>
 
 
 
-    public object Interact()
+    public Rigidbody Interact()
     {
         try
         {
-            GetItem();
+            return GetItem();
         }
         catch
         {
@@ -35,11 +35,10 @@ public class BoxWithItems : MonoBehaviour, IInteractableItem<object>
             DeleteBox();
             return null;
         }
-        return null;
     }
 
 
-public Rigidbody GetItem()
+    private Rigidbody GetItem()
     {
         if (_items.Count == 0)
             return null;
