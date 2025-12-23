@@ -62,9 +62,9 @@ public class MouseTake : MonoBehaviour
 
     private void ResetRotation()
     {
-        _item.transform.rotation = Quaternion.Euler(Vector3.zero);
+        _item.transform.rotation = Quaternion.Euler(new Vector3(0,-30,0));
         _item.freezeRotation = true;
-        _item.freezeRotation = false;
+        _item.freezeRotation = false; 
     }
 
     private void SetItem(Rigidbody obj)
