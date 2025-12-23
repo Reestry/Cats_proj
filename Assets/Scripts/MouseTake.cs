@@ -56,13 +56,19 @@ public class MouseTake : MonoBehaviour
 
     private void FreezeObject()
     {
+        if (_item == null)
+            return;
+        
         _item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         ReleaseItem();
     }
 
     private void ResetRotation()
     {
-        _item.transform.rotation = Quaternion.Euler(new Vector3(0,-30,0));
+        if (_item == null)
+            return;
+        
+        _item.transform.LookAt(Camera.main.transform);
         _item.freezeRotation = true;
         _item.freezeRotation = false; 
     }
@@ -86,11 +92,6 @@ public class MouseTake : MonoBehaviour
 
         _item.useGravity = true;
         _item = null;
-    }
-    
-    private void ResetHandPosition()
-    {
-        _handPos.position = _startHandPos;
     }
 
     private void OnDisable()
