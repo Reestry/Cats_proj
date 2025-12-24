@@ -6,6 +6,8 @@ using UnityEngine;
 public class MusicController : MonoBehaviour
 {
     [SerializeField] private List<AudioClip> _audioClips;
+    public event Action<string> OnTextEdited;
+    private MusicInterface _musicInterface;
     private AudioSource _audioSource;
     private IEnumerable<IButton> _buttons;
 
@@ -16,6 +18,7 @@ public class MusicController : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
         _buttons = GetComponentsInChildren<IButton>();
+        _musicInterface = GetComponent<MusicInterface>();
         
         foreach (var button in _buttons)
         {
@@ -43,7 +46,10 @@ public class MusicController : MonoBehaviour
         _isPlaying = !_isPlaying;
 
         if (_isPlaying)
+        {
+            SetMusic(_currentIndex);
             _audioSource.Play();
+        }
         else
             _audioSource.Stop();
         Debug.Log("Play");
@@ -53,8 +59,10 @@ public class MusicController : MonoBehaviour
     {
         try
         { 
-            if (_audioSource.clip == null)
-                _audioSource.clip = _audioClips[index];
+            _audioSource.clip = _audioClips[index];
+            
+            OnTextEdited?.Invoke(_audioSource.clip.name);
+            _musicInterface.SetText(_audioSource.clip.name);
         }
         catch
         {
